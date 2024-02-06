@@ -10,6 +10,7 @@
 import { fastify } from "fastify";
 //import { DatabaseMemory } from "./database-memory.js";
 import { DatabasePostgres } from "./database-postgres.js";
+import { rwClient, rwClientV2 } from "./twitter-node/twitterClient.js";
 
 const server = fastify()
 //const database = new DatabaseMemory()
@@ -58,3 +59,17 @@ server.listen({
     host: "0.0.0.0",
     port: process.env.PORT ?? 3333,
 })
+
+// Twitter client code.
+const tweet = async() => {
+    try {
+        //await rwClientBearer.v2.tweet('Testando API');
+        const user = await rwClient.currentUserV2()
+        console.log(user)
+        await rwClient.v2.tweet('Post via API')
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+//tweet()
